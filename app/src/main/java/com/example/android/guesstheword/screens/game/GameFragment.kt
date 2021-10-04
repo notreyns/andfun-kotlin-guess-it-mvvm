@@ -17,9 +17,11 @@
 package com.example.android.guesstheword.screens.game
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -56,16 +58,19 @@ class GameFragment : Fragment() {
             viewModel.onSkip()
 
         }
-        viewModel.word.observe(this, Observer { newWord ->
+        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
             binding.wordText.text = newWord
         })
 
-        viewModel.score.observe(this, Observer { newScore ->
+        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
             binding.scoreText.text = newScore.toString()
         })
 
-
-
+        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer{isFinished ->
+            if (isFinished){
+                gameFinished()
+            }
+        })
 
         return binding.root
 
@@ -80,9 +85,14 @@ class GameFragment : Fragment() {
      * Called when the game is finished
      */
     fun gameFinished() {
+       /* val currentScore = viewModel.score.value ?: 0
+        val action = GameFragmentDirections.actionGameToScore(currentScore)
+        findNavController(this).navigate(action)*/
+        Log.i("MainFragment", "game finished")
         val currentScore = viewModel.score.value ?: 0
         val action = GameFragmentDirections.actionGameToScore(currentScore)
         findNavController(this).navigate(action)
+        viewModel.onGameFinishComplete()
     }
 
 
