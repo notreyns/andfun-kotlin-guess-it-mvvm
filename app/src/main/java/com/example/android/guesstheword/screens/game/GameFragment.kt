@@ -61,19 +61,19 @@ class GameFragment : Fragment() {
         binding.skipButton.setOnClickListener {
             viewModel.onSkip()
 
-        }*/
-     /*   viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
+        }
+        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
             binding.wordText.text = newWord
         })
 
         viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
             binding.scoreText.text = newScore.toString()
-        })*/
+        })
 
         viewModel.currenttime.observe(viewLifecycleOwner, Observer{time ->
             binding.timerText.text = DateUtils.formatElapsedTime(time)
 
-        })
+        })*/
 
         viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer{isFinished ->
             if (isFinished){
@@ -103,6 +103,4 @@ class GameFragment : Fragment() {
         findNavController(this).navigate(action)
         viewModel.onGameFinishComplete()
     }
-
-
 }
